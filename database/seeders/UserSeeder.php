@@ -31,9 +31,9 @@ class UserSeeder extends Seeder
         User::insert($users);
 
         $roles = [
-            'id' => 1 , 'name' => 'مهندس مدني',            
-            'id' => 2 , 'name' => 'مهندس معماري',
-            'id' => 3 , 'name' => 'مقاول',
+            ['id' => 1 , 'name' => 'مهندس مدني', ],
+            ['id' => 2 , 'name' => 'مهندس معماري',],
+            ['id' => 3 , 'name' => 'مقاول',],
         ];
         Role::insert($roles);
         
