@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {       
-        Schema::create('projects_types', function (Blueprint $table) {
+        Schema::create('project_types', function (Blueprint $table) {
             $table->id();
             $table->string('name' , 50)->unique();
         });
@@ -20,20 +20,20 @@ return new class extends Migration
             $table->id();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->time('duration');
+            $table->float('duration');
             $table->float('area');
             $table->string('location');
             $table->text('description');
-            $table->string('building_no');
+            $table->string('building_no',15);
             
             $table->integer('budget')->nullable();
-            $table->string('note' , 1000);
+            $table->string('note' , 1000)->nullable();
             
             $table->enum('status' , ['new' , 'contracted' , 'completed'])->default('new');
             
-            $table->foreignId('projects_type_id')->constrained();                                    
-            $table->foreignId('client_id')->constrained('users');                                    
-            $table->foreignId('performed_by')->constrained('profiles');                        
+            $table->foreignId('project_type_id')->constrained();                                    
+            $table->foreignId('customer_id')->constrained('users');                                    
+            $table->foreignId('performed_by')->nullable()->constrained('profiles');                        
 
             $table->timestamps();
         });
@@ -45,6 +45,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('projects');
-        Schema::dropIfExists('projects_types');
+        Schema::dropIfExists('project_types');
     }
 };

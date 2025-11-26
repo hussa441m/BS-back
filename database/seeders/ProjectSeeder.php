@@ -21,6 +21,6 @@ class ProjectSeeder extends Seeder
             ['name' => 'تنفيذ ' ],
             ['name' => 'تصميم معماري' ],
         ];
-        ProjectType::create($projectTypes);        
+        ProjectType::insert($projectTypes);        
     }
 }
