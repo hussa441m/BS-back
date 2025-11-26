@@ -11,15 +11,54 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('roles' , function(Blueprint $table){
+            $table->id();
+            $table->string('name' , 50)->unique();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('name' , 50);
+            $table->string('email' , 100)->unique();
+            $table->binary('password' ,60);                    
+            $table->enum('type' , ['admin' , 'provider' , 'customer'])->default('customer');
+            $table->enum('status' , ['pending','active' , 'closed' , 'locked']);
+
             $table->timestamps();
         });
+
+        Schema::create('account_log', function (Blueprint $table) {
+            $table->id();
+            $table->json('details' ); //reject cause
+            $table->foreignId('created_by')->constrained('users');                        
+            $table->timestamps();
+        });        
+        
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();            
+            $table->enum('type' , ['landline' , 'mobile' , 'whatsapp' , 'telegram' , 'others']);   
+            $table->string('value' , 20) ;                            
+            $table->foreignId('user_id')->constrained();                        
+            $table->timestamps();
+        });
+        Schema::create('profiles', function (Blueprint $table) {
+            $table->id();            
+            $table->boolean('is_consultant');   
+            $table->date('experience_start') ;                
+            $table->string('admin_comment' , 1000)->nullable();
+            $table->foreignId('user_id')->constrained();                        
+            $table->foreignId('role_id')->constrained();            
+            $table->timestamps();
+        });
+        
+        Schema::create('qualifications', function (Blueprint $table) {
+            $table->id();            
+            $table->string('name');   
+            $table->string('image') ;                
+            $table->foreignId('profile_id')->constrained();                        
+            $table->timestamps();
+        });
+
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
@@ -42,7 +81,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
+        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('qualifications');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
