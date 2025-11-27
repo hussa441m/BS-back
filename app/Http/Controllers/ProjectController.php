@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectType;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -12,7 +13,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projectTypes = Project::all();
         return apiSuccess('All Projects' , $projects);
     }
 
@@ -73,6 +74,10 @@ class ProjectController extends Controller
     {
         $project->delete();
         return apiSuccess("تم حذف المشروع بنجاح"  );
+    }
 
+    public function projectTypes(){
+        $projectTypes = ProjectType::all();
+        return apiSuccess(' Project Types' , $projectTypes);
     }
 }
