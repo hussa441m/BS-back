@@ -14,7 +14,7 @@ class ProjectController extends Controller
     public function index()
     {
         $projectTypes = Project::all();
-        return apiSuccess('All Projects' , $projects);
+        return apiSuccess('All Projects' , $projectTypes);
     }
 
     /**
