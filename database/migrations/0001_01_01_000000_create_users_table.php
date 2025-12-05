@@ -56,7 +56,7 @@ return new class extends Migration
             $table->boolean('is_consultant');
             $table->date('experience_start');
             $table->string('admin_comment', 1000)->nullable();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->unique()->constrained();
             $table->foreignId('role_id')->constrained();
             $table->timestamps();
         });
