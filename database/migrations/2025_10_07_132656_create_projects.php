@@ -20,9 +20,9 @@ return new class extends Migration
             $table->id();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->float('duration');
-            $table->float('area');
-            $table->string('location');
+            $table->float('duration')->comment('in month');
+            $table->float('area')->comment('in km');
+            $table->string('location_details');
             $table->text('description');
             $table->string('building_no',15);
             

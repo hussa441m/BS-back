@@ -12,6 +12,7 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('/projects', ProjectController::class);
 Route::get('/project-types', [ProjectController::class , 'projectTypes'] );
+Route::get('/document-types', [ProjectController::class , 'documentTypes'] );
     
 
 Route::fallback(function () {

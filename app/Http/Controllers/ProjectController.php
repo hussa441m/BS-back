@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocumentType;
 use App\Models\Project;
-use App\Models\ProjectType;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -79,5 +79,10 @@ class ProjectController extends Controller
     public function projectTypes(){
         $projectTypes = ProjectType::all();
         return apiSuccess(' Project Types' , $projectTypes);
+    }
+    public function documentTypes()
+    {
+        $projectTypes = DocumentType::all();
+        return apiSuccess(' document Types', $projectTypes);
     }
 }

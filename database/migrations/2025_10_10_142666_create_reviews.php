@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('offers', function (Blueprint $table) {
-            $table->id();
-            $table->integer('cost');
-            $table->time('duration');
-            $table->date('details');
-            $table->boolean('isSelected');
-
+        Schema::create('reviews', function (Blueprint $table) {
+            
+            $table->enum('rate' , ['1', '2' , '3' ,'4' ,'5'])->nullable();
             $table->foreignId('project_id')->constrained();                        
-            $table->foreignId('offered_by')->constrained('profiles');                        
-
+            $table->foreignId('user_id')->constrained();                                    
             $table->timestamps();
+            $table->primary(['project_id', 'user_id']);
+
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('offers');
+        Schema::dropIfExists('reviews');
     }
 };
