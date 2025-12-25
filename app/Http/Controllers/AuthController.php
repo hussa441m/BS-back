@@ -15,13 +15,16 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:50',
             'email' => 'required|email|max:175|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|confirmed|min:6',
             'type' => 'required|in:provider,customer',
-            'is_consultant' => 'required|boolean',
-            'experience_start' => 'required|date',
-            'role_id' => 'required|exists:roles,id',
+            'experience_start' => 'required_if:type,provider|date',
+            'role_id' => 'required_if:type,provider|exists:roles,id',
         ]);
+        
         $validated['account_status_id'] = 1;
+        $validated['is_consultant'] = $request->has('is_consultant')? true : false;
+        // return apiSuccess('تم إنشاء الحساب بنجاح ', $validated);
+        
         $user = User::create(
             $validated
         );
@@ -35,9 +38,8 @@ class AuthController extends Controller
                 'experience_start' => $validated['experience_start'],
                 'role_id' => $validated['role_id']
             ]);
-
-            return apiSuccess('تم إنشاء الحساب بنجاح ', compact('type', 'name', 'token'));
         }
+        return apiSuccess('تم إنشاء الحساب بنجاح ', compact('type', 'name', 'token'));
     }
 
     function login(Request $request)
@@ -61,7 +63,7 @@ class AuthController extends Controller
             $token = $user->createToken("web api")->plainTextToken;
             return apiSuccess("Account login successfuly", compact('type', 'name', 'token'), Response::HTTP_CREATED);
         }
-        return apiError()::failed("اسم المستخدم أو كلمة المرور غير صحيحة");
+        return apiError("اسم المستخدم أو كلمة المرور غير صحيحة");
     }
 
     function logout(Request $request)

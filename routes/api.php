@@ -18,22 +18,23 @@ Route::get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('/roles',[ ٌRoleController::class , 'index']);
 
-// Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
-    // Route::middleware('user-type:admin')->group(function () {
+    Route::middleware('user-type:admin')->group(function () {
         Route::apiResource('/project-types', ProjectTypeController::class);
         Route::apiResource('/document-types', DocumentTypeController::class);
         Route::apiResource('/contact-types', ContactTypeController::class);
         Route::apiResource('/account-statuses', AccountStatusController::class);
-        Route::apiResource('/roles', ٌRoleController::class);
-    // });
+        Route::apiResource('/roles', ٌRoleController::class)->except('index');
+    });
 
-    // Route::middleware('user-type:admin')->group(function () {
+    Route::middleware('user-type:admin')->group(function () {
         Route::apiResource('/projects', ProjectController::class);
         Route::post('logout', [AuthController::class, 'logout']);
-    // });
-// });
+    });
+});
 
 
 Route::fallback(function () {

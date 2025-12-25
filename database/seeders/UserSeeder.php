@@ -8,8 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -26,14 +25,14 @@ class UserSeeder extends Seeder
         ];
         AccountStatus::insert($account_statuses);
         $users = [
-            ['id' => 1, 'name' => 'admin test', 'email' => 'admin@test.com', 'password' => '123', 'type' => 'admin', 'account_status_id' => 1],
+            ['id' => 1, 'name' => 'admin test', 'email' => 'admin@test.com', 'password' => Hash::make('123456'), 'type' => 'admin', 'account_status_id' => 1],
 
-            ['id' => 2, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => '123', 'type' => 'customer', 'account_status_id' => 1],
+            ['id' => 2, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => Hash::make('123456'), 'type' => 'customer', 'account_status_id' => 1],
 
-            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => '123', 'type' => 'provider', 'account_status_id' => 1],
-            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => '123', 'type' => 'provider', 'account_status_id' => 1],
-            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => '123', 'type' => 'provider', 'account_status_id' => 1],
-            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => '123', 'type' => 'provider', 'account_status_id' => 1],
+            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', 'account_status_id' => 1],
+            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', 'account_status_id' => 1],
+            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', 'account_status_id' => 1],
+            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', 'account_status_id' => 1],
         ];
         User::insert($users);
 
