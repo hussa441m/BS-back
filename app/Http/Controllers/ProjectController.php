@@ -99,15 +99,5 @@ class ProjectController extends Controller
     {
         $project->delete();
         return apiSuccess("تم حذف المشروع بنجاح"  );
-    }
-
-    public function projectTypes(){
-        $projectTypes = ProjectType::all();
-        return apiSuccess(' Project Types' , $projectTypes);
-    }
-    public function documentTypes()
-    {
-        $projectTypes = DocumentType::all();
-        return apiSuccess(' document Types', $projectTypes);
-    }
+    }    
 }
