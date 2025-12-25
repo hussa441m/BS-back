@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountStatusController;
+use App\Http\Controllers\Admin\ContactTypeController;
+use App\Http\Controllers\Admin\DocumentTypeController;
+use App\Http\Controllers\Admin\ProjectTypeController;
+use App\Http\Controllers\Admin\ٌRoleController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,8 +16,12 @@ Route::get('/user', function (Request $request) {
 
 
 Route::apiResource('/projects', ProjectController::class);
-Route::get('/project-types', [ProjectController::class , 'projectTypes'] );
-Route::get('/document-types', [ProjectController::class , 'documentTypes'] );
+
+Route::apiResource('/project-types', ProjectTypeController::class );
+Route::apiResource('/document-types', DocumentTypeController::class  );
+Route::apiResource('/contact-types', ContactTypeController::class  );
+Route::apiResource('/account-statuses', AccountStatusController::class  );
+Route::apiResource('/roles', ٌRoleController::class  );
     
 
 Route::fallback(function () {

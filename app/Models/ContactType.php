@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AccountStatus extends Model
+class ContactType extends Model
 {
     public $timestamps = false;
     protected $fillable = [
         'name',
     ];
+
 }
