@@ -28,9 +28,7 @@ class User extends Authenticatable
     ];
 
 
-      /**
-     * Relationship: user -> tourist
-     */
+      
     public function profile(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Profile::class);
