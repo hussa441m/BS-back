@@ -18,20 +18,25 @@ Route::get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('/project-types',[ ٌRoleController::class , 'index']);
+Route::get('/document-types',[ ٌRoleController::class , 'index']);
+Route::get('/contact-types',[ ٌRoleController::class , 'index']);
+Route::get('/account-statuses',[ ٌRoleController::class , 'index']);
+
 Route::get('/roles',[ ٌRoleController::class , 'index']);
+Route::apiResource('/projects', ProjectController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::middleware('user-type:admin')->group(function () {
-        Route::apiResource('/project-types', ProjectTypeController::class);
-        Route::apiResource('/document-types', DocumentTypeController::class);
-        Route::apiResource('/contact-types', ContactTypeController::class);
-        Route::apiResource('/account-statuses', AccountStatusController::class);
+        Route::apiResource('/project-types', ProjectTypeController::class)->except('index');
+        Route::apiResource('/document-types', DocumentTypeController::class)->except('index');
+        Route::apiResource('/contact-types', ContactTypeController::class)->except('index');
+        Route::apiResource('/account-statuses', AccountStatusController::class)->except('index');
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
     });
 
     Route::middleware('user-type:admin')->group(function () {
-        Route::apiResource('/projects', ProjectController::class);
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
