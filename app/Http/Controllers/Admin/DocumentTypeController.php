@@ -51,6 +51,8 @@ class DocumentTypeController extends Controller
      */
     public function destroy(DocumentType $documentType)
     {
+        if ($documentType->documents()->count())
+            return apiError('لا يمكن حذف نوع المستند لوجود مستندات مرتبطة بها', statusCode: 200);
         $documentType->delete();
         return apiSuccess('تم حذف نوع المستند بنجاح');
     }

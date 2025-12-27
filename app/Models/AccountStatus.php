@@ -10,4 +10,7 @@ class AccountStatus extends Model
     protected $fillable = [
         'name',
     ];
+    function users(){
+        return $this->hasMany(User::class);
+    }
 }

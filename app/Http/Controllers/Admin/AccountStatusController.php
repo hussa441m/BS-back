@@ -16,10 +16,9 @@ class AccountStatusController extends Controller
         $accountStatuses = AccountStatus::all();
 
         return apiSuccess('كافة حالات الحساب ', $accountStatuses);
-
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -29,9 +28,9 @@ class AccountStatusController extends Controller
             'name' => 'required|max:50',
         ]);
         $accountStatus = AccountStatus::create($validated);
-        return apiSuccess('تم إضافة حالة الحساب بنجاح' , $accountStatus);
+        return apiSuccess('تم إضافة حالة الحساب بنجاح', $accountStatus);
     }
-        
+
 
     /**
      * Update the specified resource in storage.
@@ -42,8 +41,7 @@ class AccountStatusController extends Controller
             'name' => 'required|max:50',
         ]);
         $accountStatus->update($validated);
-        return apiSuccess('تم تعديل حالة الحساب بنجاح' , $accountStatus);
-
+        return apiSuccess('تم تعديل حالة الحساب بنجاح', $accountStatus);
     }
 
     /**
@@ -51,6 +49,9 @@ class AccountStatusController extends Controller
      */
     public function destroy(AccountStatus $accountStatus)
     {
+        if ($accountStatus->users()->count())
+            return apiError('لا يمكن حذف الحالة لوجود حسابات مرتبطة بها', statusCode: 200);
+
         $accountStatus->delete();
         return apiSuccess('تم حذف حالة الحساب بنجاح');
     }

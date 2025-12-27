@@ -51,6 +51,8 @@ class ContactTypeController extends Controller
      */
     public function destroy(ContactType $contactType)
     {
+        if ($contactType->contacts()->count())
+            return apiError('لا يمكن حذف نوع جهة الاتصال لوجود جهات اتصال مرتبطة بها', statusCode: 200);
         $contactType->delete();
         return apiSuccess('تم حذف نوع جهة الاتصال بنجاح');
     }

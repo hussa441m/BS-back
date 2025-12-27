@@ -10,5 +10,8 @@ class DocumentType extends Model
     protected $fillable = [
         'name',
     ];
+    function documents(){
+        return $this->hasMany(Document::class);
+    }
 
 }

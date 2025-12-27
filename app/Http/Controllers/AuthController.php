@@ -22,7 +22,7 @@ class AuthController extends Controller
         ]);
         
         $validated['account_status_id'] = 1;
-        $validated['is_consultant'] = $request->has('is_consultant')? true : false;
+        $validated['is_consultant'] = $request->has('is_consultant');
         // return apiSuccess('تم إنشاء الحساب بنجاح ', $validated);
         
         $user = User::create(

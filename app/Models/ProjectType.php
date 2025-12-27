@@ -10,4 +10,7 @@ class ProjectType extends Model
     protected $fillable = [
         'name',
     ];
+    function projects(){
+        return $this->hasMany(Project::class);
+    }
 }

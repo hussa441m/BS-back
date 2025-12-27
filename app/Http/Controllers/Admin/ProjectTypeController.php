@@ -51,6 +51,8 @@ class ProjectTypeController extends Controller
      */
     public function destroy(ProjectType $projectType)
     {
+        if ($projectType->projects()->count())
+            return apiError('لا يمكن حذف نوع المشروع لوجود مشاريع مرتبطة بها', statusCode: 200);
         $projectType->delete();
         return apiSuccess('تم حذف نوع المشروع بنجاح');
     }

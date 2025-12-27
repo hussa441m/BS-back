@@ -42,7 +42,8 @@ class ProjectController extends Controller
             'documents.*.description' => 'required|max:255',           
         ]);
         //يجب أن تتحدد أثناء تسجيل الدخول
-        $validated['customer_id'] = 2;
+
+        $validated['customer_id'] = $request->user()->id;
         $project = Project::create($validated);
 
          if ($request->has('documents')) {

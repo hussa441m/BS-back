@@ -18,13 +18,12 @@ Route::get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::get('/project-types',[ ProjectTypeController::class , 'index']);
-Route::get('/document-types',[ DocumentTypeController::class , 'index']);
-Route::get('/contact-types',[ ContactTypeController::class , 'index']);
-Route::get('/account-statuses',[ ٌRoleController::class , 'index']);
+Route::get('/project-types', [ProjectTypeController::class, 'index']);
+Route::get('/document-types', [DocumentTypeController::class, 'index']);
+Route::get('/contact-types', [ContactTypeController::class, 'index']);
+Route::get('/account-statuses', [ٌRoleController::class, 'index']);
 
-Route::get('/roles',[ ٌRoleController::class , 'index']);
-Route::apiResource('/projects', ProjectController::class);
+Route::get('/roles', [ٌRoleController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -35,10 +34,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/account-statuses', AccountStatusController::class);
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
     });
+    
+    Route::apiResource('/projects', ProjectController::class);
 
-    Route::middleware('user-type:admin')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-    });
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 
