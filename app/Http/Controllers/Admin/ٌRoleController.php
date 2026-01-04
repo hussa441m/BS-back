@@ -15,43 +15,55 @@ class ٌRoleController extends Controller
     {
         $roles = Role::all();
 
-        return apiSuccess('كافة أدوار المزودين ', $roles);
-
+        return apiSuccess('كافة الأدوار ', $roles);
     }
 
-    
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:roles',
+            'projectTypes' => 'nullable|array',
+            'projectTypes.*' => 'required|exists:project_types,id',
         ]);
-        $accountStatus = Role::create($validated);
-        return apiSuccess('تم إضافة الدور بنجاح' , $accountStatus);
+        $roles = Role::create($validated);
+        $roles->projectTypes()->attach($request->projectTypes);
+        return apiSuccess('تم إضافة الدور بنجاح', $roles);
     }
-        
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $accountStatus)
+    public function show(Role $role)
+    {
+        $role = Role::with('projectTypes')->get();
+        return apiSuccess('معلومات الدور مع أنواعه', $role);
+    }
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Role $role)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => "required|max:50|unique:roles,name,$role->id",
+            'projectTypes' => 'nullable|array',
+            'projectTypes.*' => 'required|exists:project_types,id',
         ]);
-        $accountStatus->update($validated);
-        return apiSuccess('تم تعديل الدور بنجاح' , $accountStatus);
-
+        $role->update($validated);
+        $role->projectTypes()->sync($request->projectTypes);
+        return apiSuccess('تم تعديل الدور بنجاح', $role);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $accountStatus)
+    public function destroy(Role $role)
     {
-        $accountStatus->delete();
+        $role->delete();
         return apiSuccess('تم حذف الدور بنجاح');
     }
 }

@@ -20,7 +20,6 @@ Route::apiResource('/projects', ProjectController::class);
 Route::apiResource('/project-types', ProjectTypeController::class );
 Route::apiResource('/document-types', DocumentTypeController::class  );
 Route::apiResource('/contact-types', ContactTypeController::class  );
-Route::apiResource('/account-statuses', AccountStatusController::class  );
 Route::apiResource('/roles', ٌRoleController::class  );
     
 
