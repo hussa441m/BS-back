@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class ProjectSeeder extends Seeder
 {
@@ -47,14 +48,14 @@ class ProjectSeeder extends Seeder
         }
 
         $users = [
-            ['id' => 1, 'name' => 'admin test', 'email' => 'admin@test.com', 'password' => '123', 'type' => 'admin', ],
+            ['id' => 1, 'name' => 'admin test', 'email' => 'admin@test.com', 'password' => Hash::make('123456'), 'type' => 'admin', ],
 
-            ['id' => 2, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => '123', 'type' => 'customer', ],
+            ['id' => 2, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => Hash::make('123456'), 'type' => 'customer', ],
 
-            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => '123', 'type' => 'provider', ],
-            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => '123', 'type' => 'provider', ],
-            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => '123', 'type' => 'provider', ],
-            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => '123', 'type' => 'provider', ],
+            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
+            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
+            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
+            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
         ];
         User::insert($users);
 

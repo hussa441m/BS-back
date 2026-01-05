@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Admin\AccountStatusController;
 use App\Http\Controllers\Admin\ContactTypeController;
 use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\ProjectTypeController;
 use App\Http\Controllers\Admin\ٌRoleController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,14 +14,30 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-Route::apiResource('/projects', ProjectController::class);
+Route::get('/project-types', [ProjectTypeController::class, 'index']);
+Route::get('/document-types', [DocumentTypeController::class, 'index']);
+Route::get('/contact-types', [ContactTypeController::class, 'index']);
+Route::get('/account-statuses', [ٌRoleController::class, 'index']);
 
-Route::apiResource('/project-types', ProjectTypeController::class );
-Route::apiResource('/document-types', DocumentTypeController::class  );
-Route::apiResource('/contact-types', ContactTypeController::class  );
-Route::apiResource('/roles', ٌRoleController::class  );
+Route::get('/roles', [ٌRoleController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::middleware('user-type:admin')->group(function () {
+        Route::apiResource('/project-types', ProjectTypeController::class)->except('index');
+        Route::apiResource('/document-types', DocumentTypeController::class)->except('index');
+        Route::apiResource('/contact-types', ContactTypeController::class)->except('index');
+        Route::apiResource('/roles', ٌRoleController::class)->except('index');
+    });
     
+    Route::apiResource('/projects', ProjectController::class);
+
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
 
 Route::fallback(function () {
     return apiError("path is incorrect", [
