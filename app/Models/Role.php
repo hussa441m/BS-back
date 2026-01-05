@@ -10,4 +10,8 @@ class Role extends Model
     protected $fillable = [
         'name',
     ];
+
+    function projectTypes(){
+        return $this->belongsToMany(ProjectType::class);
+    }
 }

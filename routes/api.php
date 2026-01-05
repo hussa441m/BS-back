@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AccountStatusController;
 use App\Http\Controllers\Admin\ContactTypeController;
 use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\ProjectTypeController;
@@ -31,7 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/project-types', ProjectTypeController::class)->except('index');
         Route::apiResource('/document-types', DocumentTypeController::class)->except('index');
         Route::apiResource('/contact-types', ContactTypeController::class)->except('index');
-        Route::apiResource('/account-statuses', AccountStatusController::class);
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
     });
     

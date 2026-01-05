@@ -13,4 +13,8 @@ class ProjectType extends Model
     function projects(){
         return $this->hasMany(Project::class);
     }
+        function roles(){
+        return $this->belongsToMany(Role::class);
+    }
+
 }

@@ -37,6 +37,12 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        Schema::create('project_type_role', function (Blueprint $table) {
+            $table->foreignId('project_type_id')->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->primary(['role_id', 'project_type_id']);     
+        });
     }
 
     /**

@@ -16,10 +16,7 @@ return new class extends Migration
             $table->string('name', 50)->unique();
         });
 
-        Schema::create('account_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 50)->unique();
-        });
+        
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -27,8 +24,7 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->binary('password', 60);
             $table->enum('type', ['admin', 'provider', 'customer'])->default('customer');
-            $table->foreignId('account_status_id')->constrained();
-
+            $table->enum('status' , ['pending','active' , 'closed' , 'locked']);
             $table->timestamps();
         });
 

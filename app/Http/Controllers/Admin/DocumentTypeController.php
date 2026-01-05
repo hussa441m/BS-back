@@ -26,7 +26,7 @@ class DocumentTypeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:document_types',
         ]);
         $documentType = DocumentType::create($validated);
         return apiSuccess('تم إضافة نوع المستند بنجاح' , $documentType);
@@ -39,7 +39,7 @@ class DocumentTypeController extends Controller
     public function update(Request $request, DocumentType $documentType)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => "required|max:50|unique:document_types,name,documentType->id",
         ]);
         $documentType->update($validated);
         return apiSuccess('تم تعديل نوع المستند بنجاح' , $documentType);

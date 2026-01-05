@@ -26,9 +26,12 @@ class ProjectTypeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => 'required|max:50|unique:project_types',
+            'roles' => 'nullable|array',
+            'roles.*' => 'required|exists:project_types,id',
         ]);
         $projectType = ProjectType::create($validated);
+        $projectType->roles()->attach($request->roles);
         return apiSuccess('تم إضافة نوع المشروع بنجاح' , $projectType);
     }
         
@@ -39,9 +42,13 @@ class ProjectTypeController extends Controller
     public function update(Request $request, ProjectType $projectType)
     {
         $validated = $request->validate([
-            'name' => 'required|max:50',
+            'name' => "required|max:50|unique:project_types,name,$projectType->id",
+            'roles' => 'nullable|array',
+            'roles.*' => 'required|exists:project_types,id',
         ]);
         $projectType->update($validated);
+        $projectType->roles()->sync($request->roles);
+
         return apiSuccess('تم تعديل نوع المشروع بنجاح' , $projectType);
 
     }
