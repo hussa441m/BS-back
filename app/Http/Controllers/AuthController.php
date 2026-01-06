@@ -21,9 +21,7 @@ class AuthController extends Controller
             'role_id' => 'required_if:type,provider|exists:roles,id',
         ]);
         
-        $validated['account_status_id'] = 1;
-        $validated['is_consultant'] = $request->has('is_consultant');
-        // return apiSuccess('تم إنشاء الحساب بنجاح ', $validated);
+        $validated['status'] = $request->type == 'provider'? 'pending' : 'active';
         
         $user = User::create(
             $validated
@@ -32,11 +30,10 @@ class AuthController extends Controller
         $name = $user->name;
         $token = $user->createToken("mobile")->plainTextToken;
 
-        if ($type == 'provider') {
-            $user->profile()->create([
-                'is_consultant' => $validated['is_consultant'],
+        if ($type == 'provider') {            
+            $user->profile()->create([                
                 'experience_start' => $validated['experience_start'],
-                'role_id' => $validated['role_id']
+                'role_id' => $validated['role_id'],                
             ]);
         }
         return apiSuccess('تم إنشاء الحساب بنجاح ', compact('type', 'name', 'token'));
@@ -63,7 +60,7 @@ class AuthController extends Controller
             $token = $user->createToken("web api")->plainTextToken;
             return apiSuccess("Account login successfuly", compact('type', 'name', 'token'), Response::HTTP_CREATED);
         }
-        return apiError("اسم المستخدم أو كلمة المرور غير صحيحة");
+        return apiUnauthorized("اسم المستخدم أو كلمة المرور غير صحيحة");
     }
 
     function logout(Request $request)

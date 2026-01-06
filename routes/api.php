@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\ContactTypeController;
 use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\ProjectTypeController;
+use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\Admin\ٌRoleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,12 +33,23 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/document-types', DocumentTypeController::class)->except('index');
         Route::apiResource('/contact-types', ContactTypeController::class)->except('index');
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
+
+        Route::get('/providers', [ProviderController::class, 'getProviders']);
+        Route::patch('/providers/{user}', [ProviderController::class, 'update']);
     });
     
     Route::apiResource('/projects', ProjectController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
 });
+
+
+Route::middleware(['auth:sanctum', 'user-type:provider'])->prefix('provider')->group(function () {
+    Route::get('/notifications', [NotificationController::class , 'index']);
+    Route::get('/notifications/unread-count', [NotificationController::class , 'unreadCount']);
+    Route::patch('/notifications/mark-as-read', [NotificationController::class , 'markAsRead']);
+});
+
 
 
 Route::fallback(function () {

@@ -23,7 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
-        'account_status_id',        
+        'status',
     ];
 
 

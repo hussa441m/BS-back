@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ContactType;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectType;
@@ -11,7 +12,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class ProjectSeeder extends Seeder
+class ProjectAndUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -62,10 +63,10 @@ class ProjectSeeder extends Seeder
         
 
         $profiles = [
-            ['is_consultant' => false, 'experience_start' => '2000-01-01', 'user_id' => 3, 'role_id' => 1],
-            ['is_consultant' => false, 'experience_start' => '2005-01-01', 'user_id' => 4, 'role_id' => 2],
-            ['is_consultant' => false, 'experience_start' => '2010-01-01', 'user_id' => 5, 'role_id' => 3],
-            ['is_consultant' => true, 'experience_start' => '2015-01-01', 'user_id' => 6, 'role_id' => 1],
+            [ 'experience_start' => '2000-01-01', 'user_id' => 3, 'role_id' => 1],
+            [ 'experience_start' => '2005-01-01', 'user_id' => 4, 'role_id' => 2],
+            [ 'experience_start' => '2010-01-01', 'user_id' => 5, 'role_id' => 3],
+            [ 'experience_start' => '2015-01-01', 'user_id' => 6, 'role_id' => 1],
         ];
         Profile::insert($profiles);
 
@@ -85,5 +86,11 @@ class ProjectSeeder extends Seeder
             ]
         ];
         Project::insert($projects);
+        $contactTypes = [
+            ['name' => 'phone'],
+            ['name' => 'whatsApp'],
+            ['name' => 'Telegram'],
+        ];
+        ContactType::insert($contactTypes);
     }
 }

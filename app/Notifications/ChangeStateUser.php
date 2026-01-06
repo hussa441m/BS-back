@@ -4,17 +4,16 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ActivateProvider extends Notification
+class ChangeStateUser extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct(public $status)
     {
         //
     }
@@ -38,8 +37,8 @@ class ActivateProvider extends Notification
         public function toArray(object $notifiable): array
     {
         return [
-            'type' => 'تفعيل الحساب',
-            'message' => 'يمكنك الآن الاطلاع على المشاريع المطلوبة وتقديم خدماتك',
+            'type' => 'حالة الحساب',
+            'message' => "تم تغيير حالة الحساب إلى $this->status ",
         ];
     }
 }

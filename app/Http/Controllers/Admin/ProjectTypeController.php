@@ -13,7 +13,7 @@ class ProjectTypeController extends Controller
      */
     public function index()
     {
-        $projectTypes = ProjectType::all();
+        $projectTypes = ProjectType::with('roles')->get();
 
         return apiSuccess('كافة أنواع المشاريع ', $projectTypes);
 

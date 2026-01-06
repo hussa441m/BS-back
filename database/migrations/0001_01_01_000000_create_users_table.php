@@ -49,7 +49,6 @@ return new class extends Migration
         });
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_consultant');
             $table->date('experience_start');
             $table->string('admin_comment', 1000)->nullable();
             $table->foreignId('user_id')->unique()->constrained();

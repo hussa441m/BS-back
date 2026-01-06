@@ -13,7 +13,7 @@ class ٌRoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = Role::with('projectTypes')->get();
 
         return apiSuccess('كافة الأدوار ', $roles);
     }

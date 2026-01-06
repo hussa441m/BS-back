@@ -1,12 +1,9 @@
 <?php
 
 use App\Helpers\ApiResponse;
-use Illuminate\Support\Facades\Storage;
-use App\Models\Image;
 
-// Define helper functions for ApiResponse
 if (!function_exists('apiSuccess')) {
-    function apiSuccess(string $message = 'Operation successful', $data = null, int $statusCode = 200)
+    function apiSuccess(string $message = 'تمت العملية بنجاح', $data = null, int $statusCode = 200)
     {
         return ApiResponse::success($message, $data, $statusCode);
     }
@@ -19,37 +16,12 @@ if (!function_exists('apiError')) {
     }
 }
 
-// New helper functions
-if (!function_exists('apiNotFound')) {
-    function apiNotFound(string $message = 'Resource not found')
-    {
-        return ApiResponse::notFound($message);
-    }
-}
-
-if (!function_exists('apiValidationError')) {
-    function apiValidationError(string $message = 'Invalid data', $errors = [])
-    {
-        return ApiResponse::validationError($message, $errors);
-    }
-}
-
 if (!function_exists('apiUnauthorized')) {
-    function apiUnauthorized(string $message = 'Unauthorized')
+    function apiUnauthorized(string $message = 'معلومات الحساب غير صحيحة')
     {
-        return ApiResponse::unauthorized($message);
+        return ApiResponse::unauthorized($message );
     }
 }
 
 
-if (!function_exists('saveImg')) {
-    function saveImg($type, $file)
-    {
-        // $filename = $file->store("images/$type", 'public');
-        $filename = Storage::disk('public')->putFile("images/$type", $file);
-        return Image::create([
-            'name' => $filename,
-            'type' => $type,
-        ])->id;
-    }
-}
+
