@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\ContactTypeController;
 use App\Http\Controllers\Admin\DocumentTypeController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectTypeController;
-use App\Http\Controllers\Admin\ProviderController;
 use App\Http\Controllers\Admin\ٌRoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NotificationController;
@@ -34,8 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/contact-types', ContactTypeController::class)->except('index');
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
 
-        Route::get('/providers', [ProviderController::class, 'getProviders']);
-        Route::patch('/providers/{user}', [ProviderController::class, 'update']);
+        Route::get('/clients', [ProfileController::class, 'index']);
+        Route::patch('/clients/{user}', [ProfileController::class, 'accept']);
     });
     
     Route::apiResource('/projects', ProjectController::class);
@@ -44,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 
-Route::middleware(['auth:sanctum', 'user-type:provider'])->prefix('provider')->group(function () {
+Route::middleware(['auth:sanctum', 'user-type:client'])->prefix('client')->group(function () {
     Route::get('/notifications', [NotificationController::class , 'index']);
     Route::get('/notifications/unread-count', [NotificationController::class , 'unreadCount']);
     Route::patch('/notifications/mark-as-read', [NotificationController::class , 'markAsRead']);
@@ -53,7 +53,7 @@ Route::middleware(['auth:sanctum', 'user-type:provider'])->prefix('provider')->g
 
 
 Route::fallback(function () {
-    return apiError("path is incorrect", [
+    return apiError("path does not exist !!! 😁", [
         'url' => URL::current()
     ]);
 });

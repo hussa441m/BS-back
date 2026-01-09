@@ -6,14 +6,14 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class ChangeStateUser extends Notification
+class AcceptClient extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public $status)
+    public function __construct()
     {
         //
     }
@@ -37,8 +37,7 @@ class ChangeStateUser extends Notification
         public function toArray(object $notifiable): array
     {
         return [
-            'type' => 'حالة الحساب',
-            'message' => "تم تغيير حالة الحساب إلى $this->status ",
+            'message' => "تم قبول مشاركتك",
         ];
     }
 }

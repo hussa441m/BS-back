@@ -53,10 +53,10 @@ class ProjectAndUserSeeder extends Seeder
 
             ['id' => 2, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => Hash::make('123456'), 'type' => 'customer', ],
 
-            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
-            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
-            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
-            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => Hash::make('123456'), 'type' => 'provider', ],
+            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civl@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 4, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 5, 'name' => 'contractor  test', 'email' => 'cont@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 6, 'name' => 'experience  test', 'email' => 'expr@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
         ];
         User::insert($users);
 

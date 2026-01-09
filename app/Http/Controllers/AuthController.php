@@ -60,7 +60,7 @@ class AuthController extends Controller
             $token = $user->createToken("web api")->plainTextToken;
             return apiSuccess("Account login successfuly", compact('type', 'name', 'token'), Response::HTTP_CREATED);
         }
-        return apiUnauthorized("اسم المستخدم أو كلمة المرور غير صحيحة");
+        return apiError("اسم المستخدم أو كلمة المرور غير صحيحة");
     }
 
     function logout(Request $request)

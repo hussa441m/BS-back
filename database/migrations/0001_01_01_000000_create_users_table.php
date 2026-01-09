@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('email', 100)->unique();
             $table->binary('password', 60);
-            $table->enum('type', ['admin', 'provider', 'customer'])->default('customer');
+            $table->enum('type', ['admin', 'client', 'customer'])->default('customer');
             $table->enum('status' , ['pending','active' , 'closed' , 'locked']);
             $table->timestamps();
         });
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('contact_type_id')->constrained();
             $table->timestamps();
-        });
+        }); 
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->date('experience_start');
