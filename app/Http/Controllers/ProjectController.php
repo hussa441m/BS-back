@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
-use App\Models\DocumentType;
 use App\Models\Project;
-use App\Models\ProjectType;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -15,8 +13,16 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projectTypes = Project::all();
+        $projectTypes = Project::latest()->get();
         return apiSuccess('All Projects' , $projectTypes);
+    }
+
+
+    function getCustomerProjects(Request $request){        
+        $user = $request->user();
+        $projects = Project::where('customer_id' , $user->id)
+        ->latest()->get();
+        return apiSuccess("مشاريعك" , $projects);
     }
 
     /**
@@ -24,8 +30,8 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
-
+        // return $request->user()->type;
+        $this->authorize('create', Project::class);
         $validated = $request->validate([
             'start_date' => 'required|date',
             'duration' => 'required|numeric|min:0',
@@ -33,7 +39,6 @@ class ProjectController extends Controller
             'location_details'  => 'required|string|max:255',
             'description' => 'required|string', 
             'building_no' => 'required|string|max:15',
-            'budget' => 'nullable|integer|min:0',
             'note' => 'nullable|string|max:1000',
             'project_type_id' => 'required|exists:project_types,id', 
             'province_id' => 'required|exists:provinces,id', 
@@ -70,9 +75,9 @@ class ProjectController extends Controller
      * Display the specified resource.
      */
     public function show(Project $project)
-    {   
-        // $projects =  Project::with('projectType','province')->where('status', 'new')->whereIn('project_type_id', $projectTypes)->get();
-        $prjects = $project->load('projectType','province' ,'documents');
+    { 
+
+        $projects = $project->load('projectType','province' ,'documents');
         
         $project->documents = $project->documents->map(function($document){
             $document->path = asset("storage/$document->path");
@@ -87,18 +92,24 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $this->authorize('update', $project);
         $validated = $request->validate([
             'start_date' => 'required|date',
             'duration' => 'required|numeric|min:0',
             'area' => 'required|numeric|min:0', 
-            'location'  => 'required|string|max:255',
+            'location_details'  => 'required|string|max:255',
             'description' => 'required|string',
             'building_no' => 'required|string|max:15',
-            'budget' => 'nullable|integer|min:0',
             'note' => 'nullable|string|max:1000',
-            'project_type_id' => 'required|exists:project_types,id',            
+            'project_type_id' => 'required|exists:project_types,id', 
+            'province_id' => 'required|exists:provinces,id', 
+            'documents' => 'nullable|array',
+            'documents.*.file' => 'required|file|max:50000',
+            'documents.*.type' => 'required|exists:document_types,id',
+            'documents.*.description' => 'required|max:255', 
         ]);
         $project->update($validated);
+        /** معالجة تعديل الملفات */
         return apiSuccess("تم تعديل المشروع بنجاح" , $project );
     }
 
@@ -107,6 +118,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        $this->authorize('delete', $project);
+
         $project->delete();
         return apiSuccess("تم حذف المشروع بنجاح"  );
     }    

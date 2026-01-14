@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('path' );
             $table->string('description' );
             $table->foreignId('user_id')->constrained();                                                
-            $table->foreignId('project_id')->nullable()->constrained();                                                
+            $table->foreignId('project_id')->nullable()->constrained()->onDelete('cascade');                                                
             $table->foreignId('document_type_id')->constrained();                                                
             $table->timestamps();
         });

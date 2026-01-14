@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProjectTypeController;
 use App\Http\Controllers\Admin\ٌRoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
@@ -58,6 +59,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('getProjects/{status}',  'getProjects');
 
             Route::post('addOffer/{project}',  'addOffer');
+        });
+    });
+    Route::middleware('user-type:customer')->prefix('customer')->group(function () {
+        Route::controller(ProjectController::class)->group(function () {
+            Route::get('getCustomerProjects', 'getCustomerProjects');
         });
     });
 });
