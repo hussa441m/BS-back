@@ -16,7 +16,7 @@ class AuthController extends Controller
             'name' => 'required|max:50',
             'email' => 'required|email|max:175|unique:users',
             'password' => 'required|confirmed|min:6',
-            'type' => 'required|in:provider,customer',
+            'type' => 'required|in:client,customer',
             'experience_start' => 'required_if:type,provider|date',
             'role_id' => 'required_if:type,provider|exists:roles,id',
         ]);

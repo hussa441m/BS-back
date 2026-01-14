@@ -19,6 +19,9 @@ class Project extends Model
     function documents(){
         return $this->hasMany(Document::class);
     }
+    function offers(){
+        return $this->hasMany(Offer::class);
+    }
     function customer(){
         return $this->belongsTo(User::class,'customer_id');
     }

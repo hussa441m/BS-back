@@ -62,8 +62,7 @@ class ProjectController extends Controller
                     'path' => $docName,
                     'description' => $document['description'],
                     'document_type_id' => $document['type'],
-                    // 'user_id' => Auth::id(),
-                    'user_id' => 2,
+                    'user_id' => $request->user()->id,
                     'project_id' => $project->id
                 ]);
             }

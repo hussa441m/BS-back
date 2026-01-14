@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ContactType;
+use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectType;
@@ -12,7 +13,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class ProjectAndUserSeeder extends Seeder
+class ProjectAndUserAndOfferSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -75,6 +76,7 @@ class ProjectAndUserSeeder extends Seeder
 
         $projects = [
             [
+                'id' =>1 ,
                 'start_date' => '2026-01-01',
                 'duration' => 3,
                 'area' =>  1000,
@@ -85,11 +87,23 @@ class ProjectAndUserSeeder extends Seeder
                 'status' => 'new',
                 'project_type_id' => 1,
                 'province_id' => 2,
-                'customer_id' => 2,
-                'performed_by' => 3
+                'customer_id' => 7,
+                'performed_by' => null
             ]
         ];
         Project::insert($projects);
+        
+
+        $offer = [
+            'cost' => 50000,
+            'duration' => 2,
+            'details' => '',
+            'project_id' => '1',
+            'offered_by' => '4',
+        ];
+        Offer::create($offer);
+
+        
         $contactTypes = [
             ['name' => 'phone'],
             ['name' => 'whatsApp'],
