@@ -8,5 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $fillable = ['start_date' , 'end_date' , 'duration' , 'area' , 'location_details' , 
-    'description' , 'building_no'  ,'budget' ,  'note' , 'status' , 'project_type_id', 'customer_id' , 'performed_by'];
+    'description' , 'building_no'  ,'budget' ,  'note' , 'status' , 'project_type_id', 'customer_id' , 'performed_by','province_id'];
+
+    function province(){
+        return $this->belongsTo(province::class);
+    }
+    function projectType(){
+        return $this->belongsTo(ProjectType::class);
+    }
+    function documents(){
+        return $this->hasMany(Document::class);
+    }
+    function customer(){
+        return $this->belongsTo(User::class,'customer_id');
+    }
+    
+
 }

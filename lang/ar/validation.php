@@ -292,5 +292,8 @@ return [
         'documents.*.file'        => 'الملف',
         'documents.*.type'        => 'نوع الملف',
         'documents.*.description' => 'وصف الملف',
+        'details'         => 'تفاصيل',
+        'cost'         => 'كلفة',
+
     ],
 ];

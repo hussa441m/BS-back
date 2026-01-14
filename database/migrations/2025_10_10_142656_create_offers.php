@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->integer('cost');
-            $table->time('duration');
-            $table->date('details');
-            $table->boolean('isSelected');
+            $table->integer('duration');
+            $table->text('details');
+            $table->boolean('isSelected')->default(false);
 
             $table->foreignId('project_id')->constrained();                        
             $table->foreignId('offered_by')->constrained('profiles');                        

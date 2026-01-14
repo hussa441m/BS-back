@@ -93,7 +93,6 @@ return new class extends Migration
         Schema::dropIfExists('account_log');
         Schema::dropIfExists('users');
         Schema::dropIfExists('roles');
-        Schema::dropIfExists('account_statuses');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

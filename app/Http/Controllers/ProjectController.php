@@ -36,6 +36,7 @@ class ProjectController extends Controller
             'budget' => 'nullable|integer|min:0',
             'note' => 'nullable|string|max:1000',
             'project_type_id' => 'required|exists:project_types,id', 
+            'province_id' => 'required|exists:provinces,id', 
             'documents' => 'nullable|array',
             'documents.*.file' => 'required|file|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
@@ -69,7 +70,15 @@ class ProjectController extends Controller
      * Display the specified resource.
      */
     public function show(Project $project)
-    {
+    {   
+        // $projects =  Project::with('projectType','province')->where('status', 'new')->whereIn('project_type_id', $projectTypes)->get();
+        $prjects = $project->load('projectType','province' ,'documents');
+        
+        $project->documents = $project->documents->map(function($document){
+            $document->path = asset("storage/$document->path");
+            return $document;
+        } );
+
         return apiSuccess("بيانات المشروع" , $project );        
     }
 

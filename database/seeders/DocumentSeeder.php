@@ -14,8 +14,8 @@ class DocumentSeeder extends Seeder
     public function run(): void
     {
         $documentTypes = [
-            ['name' => 'صورة'],
-            ['name' => 'pdfمستند'],
+            ['name' => 'image'],
+            ['name' => 'pdf'],
         ];
         DocumentType::insert($documentTypes);
     }

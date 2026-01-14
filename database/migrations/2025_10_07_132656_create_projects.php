@@ -29,8 +29,9 @@ return new class extends Migration
             $table->integer('budget')->nullable();
             $table->string('note' , 1000)->nullable();
             
-            $table->enum('status' , ['new' , 'contracted' , 'completed'])->default('new');
+            $table->enum('status' , ['new' , 'active' , 'completed'])->default('new');
             
+            $table->foreignId('province_id')->constrained();                                    
             $table->foreignId('project_type_id')->constrained();                                    
             $table->foreignId('customer_id')->constrained('users');                                    
             $table->foreignId('performed_by')->nullable()->constrained('profiles');                        
