@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProfileResource;
+use App\Http\Resources\UserResource;
 use App\Models\Offer;
 use App\Models\Project;
+use App\Models\Role;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+
+function getClients(Role $role){
+    $profiles = $role->profiles()->with('user')->get();
+        return apiSuccess("العملاء - ($role->name)",  ProfileResource::collection( $profiles));
+    }
+
+
     function getOffers(Project $project){
         $offers = $project->offers;
         return apiSuccess("عروض المشروع" , $offers);
@@ -21,4 +31,6 @@ class CustomerController extends Controller
     function getSteps(Project $project){
 
     }
+    
+
 }

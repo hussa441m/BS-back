@@ -14,4 +14,7 @@ class Role extends Model
     function projectTypes(){
         return $this->belongsToMany(ProjectType::class);
     }
+    function profiles(){
+        return $this->hasMany(Profile::class);
+    }
 }

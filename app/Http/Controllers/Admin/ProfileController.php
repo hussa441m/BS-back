@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProfileResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Notifications\AcceptClient;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class ProfileController extends Controller
             return $q->where('status',  $status);
         })->with('profile')->get();
         //   return $profiles;              
-        return apiSuccess('العملاء ',   ProfileResource::collection($profiles));
+        return apiSuccess('العملاء ',   UserResource::collection($profiles));
     }
 
     public function accept(User $user )

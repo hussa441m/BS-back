@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProfileResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,8 @@ class ProfileResource extends JsonResource
     {
         return [
              'id' => $this->id,
-             'name' => $this->user->name,
-             'experience' => round(Carbon::parse($this->experience_start)->diffInDays(now()) / 365.25,1),
+             'name' => $this->name,
+             'experience' => round(Carbon::parse($this->profile->experience_start)->diffInDays(now()) / 365.25,1),
         ];
     }
 }
