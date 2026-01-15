@@ -13,8 +13,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projectTypes = Project::latest()->get();
-        return apiSuccess('All Projects' , $projectTypes);
+        $projects = Project::latest()->get();
+        return apiSuccess('All Projects' , $projects);
     }
 
 
@@ -43,7 +43,7 @@ class ProjectController extends Controller
             'project_type_id' => 'required|exists:project_types,id', 
             'province_id' => 'required|exists:provinces,id', 
             'documents' => 'nullable|array',
-            'documents.*.file' => 'required|file|max:50000',
+            'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
             'documents.*.description' => 'required|max:255',           
         ]);
@@ -55,15 +55,12 @@ class ProjectController extends Controller
          if ($request->has('documents')) {
             foreach ($request->documents as $document) {
 
-                $docName = $document['file']->store('projects', 'public');
+                $docName = $document['file']->store('projects', 'public');              
                 
-                
-                Document::create([
+                $project->documents()->create([
                     'path' => $docName,
                     'description' => $document['description'],
                     'document_type_id' => $document['type'],
-                    'user_id' => $request->user()->id,
-                    'project_id' => $project->id
                 ]);
             }
         }

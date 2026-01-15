@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
-            
-            $table->enum('rate' , ['1', '2' , '3' ,'4' ,'5'])->nullable();
-            $table->foreignId('comment');                                    
+        Schema::create('complaints', function (Blueprint $table) {
+            $table->id();            
+            $table->string('text');                                    
             $table->foreignId('project_id')->constrained();                        
             $table->foreignId('user_id')->constrained();                                    
             $table->timestamps();
-            $table->primary(['project_id', 'user_id']);
-
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('complaints');
     }
 };

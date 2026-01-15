@@ -51,15 +51,15 @@ class ProjectAndUserAndOfferSeeder extends Seeder
 
         $users = [
             
-            ['id' => 1, 'name' => 'builder test', 'email' => 'builder@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
-            ['id' => 2, 'name' => 'architectural engineer test', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
-            ['id' => 3, 'name' => 'civil engineer test', 'email' => 'civil@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
-            ['id' => 4, 'name' => 'experience  test', 'email' => 'exper@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
-            ['id' => 5, 'name' => 'office  test', 'email' => 'office@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 1, 'name' => 'رفعت الصاق', 'email' => 'builder@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 2, 'name' => 'منير الأشرف ', 'email' => 'arct@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 3, 'name' => 'هاني السعيد', 'email' => 'civil@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 4, 'name' => 'فالح الشاطر', 'email' => 'exper@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
+            ['id' => 5, 'name' => 'راقي الصافي', 'email' => 'office@test.com', 'password' => Hash::make('123456'), 'type' => 'client', ],
 
-            ['id' => 6, 'name' => 'admin test', 'email' => 'admin@test.com', 'password' => Hash::make('123456'), 'type' => 'admin', ],
+            ['id' => 6, 'name' => 'المشرف', 'email' => 'admin@test.com', 'password' => Hash::make('123456'), 'type' => 'admin', ],
 
-            ['id' => 7, 'name' => 'customer test', 'email' => 'cust@test.com', 'password' => Hash::make('123456'), 'type' => 'customer', ],
+            ['id' => 7, 'name' => 'وداد الفهيم', 'email' => 'cust@test.com', 'password' => Hash::make('123456'), 'type' => 'customer', ],
         ];
         User::insert($users);
 

@@ -9,14 +9,25 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+
+    function getTotals(Request $request)
+    {
+        $profile = $request->user()->profile;
+        
+        $activeProject = Project::where('performed_by', $profile->id)->where('status', 'active')->count();
+        $completedProject = Project::where('performed_by', $profile->id)->where('status', 'completed')->count();
+        $rate = $profile->projects->avg('rate');
+        return apiSuccess("إحصائيات عن حسابك" , compact('activeProject', 'completedProject' ,'rate'));
+    }
     function getNewProjects(Request $request)
     {
         $projectTypes = $request->user()->profile->projectTypes->modelKeys();
-        $projects =  Project::with('projectType','province')->where('status', 'new')->whereIn('project_type_id', $projectTypes)->get();
+        $projects =  Project::with('projectType', 'province')->where('status', 'new')->whereIn('project_type_id', $projectTypes)->get();
         return apiSuccess("المشاريع الجديدة", $projects);
     }
+
     function getProjects(Request $request, $status)
-    {        
+    {
         $profile = $request->user()->profile;
         $projects =  Project::where('performed_by', $profile->id)->where('status', $status)->get();
         return apiSuccess("المشاريع التي حالتها $status", $projects);
@@ -30,7 +41,7 @@ class ClientController extends Controller
             'duration' => 'required|integer|min:1',
             'details' => 'required',
         ]);
-        
+
         $validated['project_id'] = $project->id;
         $validated['offered_by'] = $user->profile->id;
 
@@ -38,5 +49,5 @@ class ClientController extends Controller
         $project->customer->notify(new NotificationsOffer($user->name));
 
         return apiSuccess("تم إضافة عرضك", $offer);
-    }    
+    }
 }

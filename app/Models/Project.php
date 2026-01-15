@@ -16,9 +16,7 @@ class Project extends Model
     function projectType(){
         return $this->belongsTo(ProjectType::class);
     }
-    function documents(){
-        return $this->hasMany(Document::class);
-    }
+    
     function offers(){
         return $this->hasMany(Offer::class);
     }
@@ -26,5 +24,8 @@ class Project extends Model
         return $this->belongsTo(User::class,'customer_id');
     }
     
+    function documents(){
+        return $this->morphMany(Document::class , 'documentable');
+    }
 
 }

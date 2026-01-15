@@ -31,6 +31,8 @@ return new class extends Migration
             
             $table->enum('status' , ['new' , 'active' , 'completed'])->default('new');
             
+            $table->enum('rate' , ['1', '2' , '3' ,'4' ,'5'])->nullable();
+            
             $table->foreignId('province_id')->constrained();                                    
             $table->foreignId('project_type_id')->constrained();                                    
             $table->foreignId('customer_id')->constrained('users');                                    
@@ -51,6 +53,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('project_type_role');
         Schema::dropIfExists('projects');
         Schema::dropIfExists('project_types');
     }

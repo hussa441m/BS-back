@@ -14,6 +14,10 @@ class Profile extends Model
     function role(){
         return $this->belongsTo(Role::class);
     }
+
+    function documents(){
+        return $this->morphMany(Document::class , 'documentable');
+    }
     function projectTypes(){
         return $this->belongsToMany(
             ProjectType::class,
@@ -23,5 +27,8 @@ class Profile extends Model
             'role_id', // local key on this model that stores the role id
             'id' // related model primary key
         );
+    }
+    function projects(){
+        return $this->hasMany(Project::class ,'performed_by');
     }
 }

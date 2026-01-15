@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ٌRoleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
@@ -24,6 +25,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 
 Route::get('/provinces', [SettingController::class, 'provinces']);
+
 Route::get('/project-types', [ProjectTypeController::class, 'index']);
 Route::get('/document-types', [DocumentTypeController::class, 'index']);
 Route::get('/contact-types', [ContactTypeController::class, 'index']);
@@ -31,6 +33,9 @@ Route::get('/contact-types', [ContactTypeController::class, 'index']);
 Route::get('/roles', [ٌRoleController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download']);
+
     Route::apiResource('/projects', ProjectController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
@@ -55,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('user-type:client')->prefix('client')->group(function () {
 
         Route::controller(ClientController::class)->group(function () {
+            Route::get('getTotals',  'getTotals');
             Route::get('getNewProjects',  'getNewProjects');
             Route::get('getProjects/{status}',  'getProjects');
 
@@ -69,9 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('getOffers/{project}', 'getOffers');
             Route::get('AcceptOffers/{project}/{offer}', 'AcceptOffers');
             Route::get('getSteps/{project}', 'getSteps');
-
-
-        });    
+        });
     });
 });
 
