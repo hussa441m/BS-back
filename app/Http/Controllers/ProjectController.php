@@ -14,15 +14,16 @@ class ProjectController extends Controller
     public function index()
     {
         $projects = Project::latest()->get();
-        return apiSuccess('All Projects' , $projects);
+        return apiSuccess('All Projects', $projects);
     }
 
 
-    function getCustomerProjects(Request $request){        
+    function getCustomerProjects(Request $request)
+    {
         $user = $request->user();
-        $projects = Project::where('customer_id' , $user->id)
-        ->latest()->get();
-        return apiSuccess("مشاريعك" , $projects);
+        $projects = Project::where('customer_id', $user->id)
+            ->latest()->get();
+        return apiSuccess("مشاريعك", $projects);
     }
 
     /**
@@ -35,28 +36,28 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'start_date' => 'required|date',
             'duration' => 'required|numeric|min:0',
-            'area' => 'required|numeric|min:0', 
+            'area' => 'required|numeric|min:0',
             'location_details'  => 'required|string|max:255',
-            'description' => 'required|string', 
+            'description' => 'required|string',
             'building_no' => 'required|string|max:15',
             'note' => 'nullable|string|max:1000',
-            'project_type_id' => 'required|exists:project_types,id', 
-            'province_id' => 'required|exists:provinces,id', 
+            'project_type_id' => 'required|exists:project_types,id',
+            'province_id' => 'required|exists:provinces,id',
             'documents' => 'nullable|array',
             'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
-            'documents.*.description' => 'required|max:255',           
+            'documents.*.description' => 'required|max:255',
         ]);
         //يجب أن تتحدد أثناء تسجيل الدخول
 
         $validated['customer_id'] = $request->user()->id;
         $project = Project::create($validated);
 
-         if ($request->has('documents')) {
+        if ($request->has('documents')) {
             foreach ($request->documents as $document) {
 
-                $docName = $document['file']->store('projects', 'public');              
-                
+                $docName = $document['file']->store('projects', 'public');
+
                 $project->documents()->create([
                     'path' => $docName,
                     'description' => $document['description'],
@@ -64,23 +65,23 @@ class ProjectController extends Controller
                 ]);
             }
         }
-        return apiSuccess("تم إضافة المشروع بنجاح" , $project );
+        return apiSuccess("تم إضافة المشروع بنجاح", $project);
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Project $project)
-    { 
+    {
 
-        $projects = $project->load('projectType','province' ,'documents');
-        
-        $project->documents = $project->documents->map(function($document){
+        $projects = $project->load('projectType', 'province', 'documents');
+
+        $project->documents = $project->documents->map(function ($document) {
             $document->path = asset("storage/$document->path");
             return $document;
-        } );
+        });
 
-        return apiSuccess("بيانات المشروع" , $project );        
+        return apiSuccess("بيانات المشروع", $project);
     }
 
     /**
@@ -92,21 +93,21 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'start_date' => 'required|date',
             'duration' => 'required|numeric|min:0',
-            'area' => 'required|numeric|min:0', 
+            'area' => 'required|numeric|min:0',
             'location_details'  => 'required|string|max:255',
             'description' => 'required|string',
             'building_no' => 'required|string|max:15',
             'note' => 'nullable|string|max:1000',
-            'project_type_id' => 'required|exists:project_types,id', 
-            'province_id' => 'required|exists:provinces,id', 
+            'project_type_id' => 'required|exists:project_types,id',
+            'province_id' => 'required|exists:provinces,id',
             'documents' => 'nullable|array',
             'documents.*.file' => 'required|file|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
-            'documents.*.description' => 'required|max:255', 
+            'documents.*.description' => 'required|max:255',
         ]);
         $project->update($validated);
         /** معالجة تعديل الملفات */
-        return apiSuccess("تم تعديل المشروع بنجاح" , $project );
+        return apiSuccess("تم تعديل المشروع بنجاح", $project);
     }
 
     /**
@@ -117,6 +118,6 @@ class ProjectController extends Controller
         $this->authorize('delete', $project);
 
         $project->delete();
-        return apiSuccess("تم حذف المشروع بنجاح"  );
-    }    
+        return apiSuccess("تم حذف المشروع بنجاح");
+    }
 }

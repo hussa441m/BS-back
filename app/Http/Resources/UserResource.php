@@ -19,6 +19,11 @@ class UserResource extends JsonResource
              'id' => $this->id,
              'name' => $this->name,
              'experience' => round(Carbon::parse($this->profile->experience_start)->diffInDays(now()) / 365.25,1),
+             'documents' => $this->profile->documents->map(function($doc){
+                return [                    
+                    'url' => asset('storage/' . $doc->path),
+                ];
+             }),
         ];
     }
 }

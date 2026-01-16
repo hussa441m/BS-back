@@ -17,12 +17,16 @@ class AuthController extends Controller
             'email' => 'required|email|max:175|unique:users',
             'password' => 'required|confirmed|min:6',
             'type' => 'required|in:client,customer',
-            'experience_start' => 'required_if:type,provider|date',
-            'role_id' => 'required_if:type,provider|exists:roles,id',
+            'experience_start' => 'required_if:type,client|date',
+            'role_id' => 'required_if:type,client|exists:roles,id',
+            'documents' => 'nullable|array',
+            'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
+            'documents.*.type' => 'required|exists:document_types,id',
+            'documents.*.description' => 'required|max:255',
         ]);
-        
-        $validated['status'] = $request->type == 'provider'? 'pending' : 'active';
-        
+
+        $validated['status'] = $request->type == 'client' ? 'pending' : 'active';
+
         $user = User::create(
             $validated
         );
@@ -30,11 +34,23 @@ class AuthController extends Controller
         $name = $user->name;
         $token = $user->createToken("mobile")->plainTextToken;
 
-        if ($type == 'provider') {            
-            $user->profile()->create([                
+        if ($type == 'client') {
+            $profile = $user->profile()->create([
                 'experience_start' => $validated['experience_start'],
-                'role_id' => $validated['role_id'],                
+                'role_id' => $validated['role_id'],
             ]);
+            if ($request->has('documents')) {
+                foreach ($request->documents as $document) {
+
+                    $docName = $document['file']->store('projects', 'public');
+
+                    $profile->documents()->create([
+                        'path' => $docName,
+                        'description' => $document['description'],
+                        'document_type_id' => $document['type'],
+                    ]);
+                }
+            }
         }
         return apiSuccess('تم إنشاء الحساب بنجاح ', compact('type', 'name', 'token'));
     }

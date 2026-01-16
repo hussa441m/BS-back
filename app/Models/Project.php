@@ -28,4 +28,8 @@ class Project extends Model
         return $this->morphMany(Document::class , 'documentable');
     }
 
+    function steps(){
+        return $this->hasMany(Step::class);
+    }
+
 }
