@@ -76,7 +76,7 @@ Route::middleware('auth:sanctum')->group(function () {
         });
         Route::controller(CustomerController::class)->group(function () {
             Route::get('getOffers/{project}', 'getOffers');
-            Route::get('AcceptOffers/{project}/{offer}', 'AcceptOffers');
+            Route::post('acceptOffer/{project}/{offer}', 'acceptOffer');
             Route::get('getSteps/{project}', 'getSteps');
         });
     });

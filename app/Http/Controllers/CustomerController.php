@@ -8,6 +8,7 @@ use App\Models\Offer;
 use App\Models\Project;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerController extends Controller
 {
@@ -19,11 +20,18 @@ function getClients(Role $role){
 
 
     function getOffers(Project $project){
-        $offers = $project->offers;
-        return apiSuccess("عروض المشروع" , $offers);
-    }
+        $offers = $project->offers()->with('documents')->get()->map(function($offer){
+            $offer->documents = $offer->documents->map(function($doc){
+                $doc->path = asset('storage/' . $doc->path);
+                return $doc;
+            });
+            return $offer;
+        });
 
-    function AcceptOffers(Project $project , Offer $offer){
+        return apiSuccess("عروض المشروع", $offers);
+    }    
+
+    function acceptOffer(Project $project , Offer $offer){
         $offer->update(['isSelected' => true]);
         $project->update(['performed_by' => $offer->offered_by , 'status' => 'active']);
         return apiSuccess("تم قبول العرض" );        
