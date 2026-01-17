@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\UserResource;
 use App\Models\Offer;
+use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Role;
+use App\Notifications\AcceptOffer;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -35,10 +38,15 @@ class CustomerController extends Controller
 
     function acceptOffer(Project $project, Offer $offer)
     {
+        // return $offer;
         $offer->update(['isSelected' => true]);
         $project->update(['performed_by' => $offer->offered_by, 'status' => 'active']);
+        $clientuser = Profile::find( $offer->offered_by)->user;
+        
+        $clientuser->notify(new AcceptOffer());
         return apiSuccess("تم قبول العرض");
     }
+    
     function getSteps(Project $project) {
         $steps = $project->steps()->with('documents')->get()->map(function($step){
             $step->documents = $step->documents->map(function ($doc) {

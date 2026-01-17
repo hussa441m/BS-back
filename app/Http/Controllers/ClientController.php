@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use App\Models\Project;
-use App\Notifications\OfferNotification;
+use App\Notifications\NewOffer;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -71,7 +71,7 @@ class ClientController extends Controller
                 ]);
             }
         }
-        $project->customer->notify(new OfferNotification($user->name));
+        $project->customer->notify(new NewOffer($user->name));
 
         return apiSuccess("تم إضافة عرضك", $offer);
     }
@@ -80,8 +80,7 @@ class ClientController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:100', 
-            'note' => 'nullable|string|max:1000', 
-            'order' => 'required|integer', 
+            'description' => 'nullable|string|max:1000', 
             'documents' => 'nullable|array',
             'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
@@ -90,5 +89,11 @@ class ClientController extends Controller
     $validated['project_id'] = $project->id;
         $step = $project->steps()->create($validated);
         return apiSuccess("تم إضافة الخطوة بنجاح", $step);
+    }
+
+    function end(Project $project){
+        $project->status = 'completed';
+        $project->save();
+        return apiSuccess("تم إنهاء المشروع بنجاح");;   
     }
 }

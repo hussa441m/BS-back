@@ -48,7 +48,7 @@ class AcceptOffer extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'message' => "تم قبول عرضك",
         ];
     }
 }

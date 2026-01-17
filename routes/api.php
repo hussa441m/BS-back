@@ -72,7 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('isActive',  'isActive');
 
             Route::post('addOffer/{project}',  'addOffer');
-            Route::post('add-step/{project}',  'addStep');
+            Route::post('addStep/{project}',  'addStep');
+            Route::post('end/{project}',  'end');
         });
     });
     Route::middleware('user-type:customer')->prefix('customer')->group(function () {

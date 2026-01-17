@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->id();
             $table->string('title' , 100);            
-            $table->string('note' , 1000)->nullable();                    
+            $table->string('description' , 1000)->nullable();                    
             $table->foreignId('project_id')->constrained();                                    
             $table->timestamps();
         });
