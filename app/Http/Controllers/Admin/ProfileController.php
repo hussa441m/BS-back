@@ -16,7 +16,8 @@ class ProfileController extends Controller
         $profiles = User::where('type' , 'client')
         ->when($status, function ($q) use ($status) {
             return $q->where('status',  $status);
-        })->with('profile.documents' )->get();
+        })->with('profile.role')
+        ->with('profile.documents' )->get();
         //   return $profiles;              
         return apiSuccess('العملاء ',   UserResource::collection($profiles));
     }
