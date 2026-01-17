@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ContactTypeController;
 use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/projects', ProjectController::class);
 
+    Route::get('profile', [AuthController::class, 'getProfile']);
+    Route::put('profile', [AuthController::class, 'updateProfile']);
     Route::post('logout', [AuthController::class, 'logout']);
 
     Route::controller(NotificationController::class)->group(function () {
@@ -56,6 +59,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/clients', [ProfileController::class, 'index']);
         Route::patch('/clients/{user}', [ProfileController::class, 'accept']);
+
+        Route::get('/totals', [AdminController::class, 'totals']);
     });
 
     Route::middleware('user-type:client')->prefix('client')->group(function () {
@@ -67,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('isActive',  'isActive');
 
             Route::post('addOffer/{project}',  'addOffer');
-            Route::post('addStep/{project}',  'addStep');
+            Route::post('add-step/{project}',  'addStep');
         });
     });
     Route::middleware('user-type:customer')->prefix('customer')->group(function () {

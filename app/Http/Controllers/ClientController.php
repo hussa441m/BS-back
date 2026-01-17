@@ -78,18 +78,17 @@ class ClientController extends Controller
 
     function addStep(Request $request, Project $project)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:100', 
             'note' => 'nullable|string|max:1000', 
             'order' => 'required|integer', 
-            'project_id' => 'required|exists:projects,id', 
+            'documents' => 'nullable|array',
+            'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
+            'documents.*.type' => 'required|exists:document_types,id',
+            'documents.*.description' => 'required|max:255',
         ]);
-
-        $step = $project->steps()->create([
-            'title' => $request->title,
-            'note' => $request->note,
-            'order' => $request->order,
-        ]);
+    $validated['project_id'] = $project->id;
+        $step = $project->steps()->create($validated);
         return apiSuccess("تم إضافة الخطوة بنجاح", $step);
     }
 }

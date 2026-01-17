@@ -21,8 +21,14 @@ class ProjectController extends Controller
     function getCustomerProjects(Request $request)
     {
         $user = $request->user();
-        $projects = Project::where('customer_id', $user->id)
+        $projects = Project::with('documents')->where('customer_id', $user->id)
             ->latest()->get();
+            $projects->each(function($project){
+                $project->documents = $project->documents->map(function ($document) {
+                    $document->path = asset("storage/$document->path");
+                    return $document;
+                });
+            });
         return apiSuccess("مشاريعك", $projects);
     }
 

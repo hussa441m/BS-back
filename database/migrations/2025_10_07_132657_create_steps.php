@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('title' , 100);            
             $table->string('note' , 1000)->nullable();                    
-            $table->integer('order' );            
             $table->foreignId('project_id')->constrained();                                    
             $table->timestamps();
         });

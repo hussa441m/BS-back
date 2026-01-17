@@ -55,6 +55,38 @@ class AuthController extends Controller
         return apiSuccess('تم إنشاء الحساب بنجاح ', compact('type', 'name', 'token'));
     }
 
+    function getProfile(Request $request)
+    {
+        $user = $request->user();
+        $user->experience_start = $user->profile->experience_start ?? null;
+        $user->experience_start = $user->profile->experience_start ?? null;
+        $user->role_id = $user->profile->role?->id ?? null;
+        $user->role = $user->profile->role?->name ?? null;
+        return apiSuccess('تم جلب بيانات الحساب بنجاح ', $user);
+    }
+    function updateProfile(Request $request)
+    {
+        $user = $request->user();
+        $validated = $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|email|max:175|unique:users,email,' . $user->id,
+            'experience_start' => 'required_if:type,client|date',
+            'role_id' => 'required_if:type,client|exists:roles,id',
+        ]);
+
+        $user->update(
+            $validated
+        );
+
+        if ($user->type == 'client') {
+            $profile = $user->profile()->update([
+                'experience_start' => $validated['experience_start'],
+                'role_id' => $validated['role_id'],
+            ]);
+        }
+        return apiSuccess('تم تعديل الحساب بنجاح ', compact('user'));
+    }
+
     function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
