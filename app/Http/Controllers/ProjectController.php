@@ -39,6 +39,7 @@ class ProjectController extends Controller
     {
         // return $request->user()->type;
         $this->authorize('create', Project::class);
+        
         $validated = $request->validate([
             'start_date' => 'required|date',
             'duration' => 'required|numeric|min:0',
@@ -125,5 +126,17 @@ class ProjectController extends Controller
 
         $project->delete();
         return apiSuccess("تم حذف المشروع بنجاح");
+    }
+
+    function getSteps(Project $project)
+    {
+        $steps = $project->steps()->with('documents')->get()->map(function ($step) {
+            $step->documents = $step->documents->map(function ($doc) {
+                $doc->path = asset('storage/' . $doc->path);
+                return $doc;
+            });
+            return $step;
+        });
+        return apiSuccess("خطوات المشروع", $steps);
     }
 }

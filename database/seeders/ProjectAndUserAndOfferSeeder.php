@@ -81,7 +81,7 @@ class ProjectAndUserAndOfferSeeder extends Seeder
                 'duration' => 3,
                 'area' =>  1000,
                 'location_details' => 'Mazeh',
-                'description' => 'مشروع ترميم منافع',
+                'description' => 'ترميم منافع',
                 'building_no' => '123',
                 'status' => 'new',
                 'comment' => '',

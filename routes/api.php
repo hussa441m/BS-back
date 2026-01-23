@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('getClients/{role}', [CustomerController::class, 'getClients']);
+    Route::get('getSteps/{project}', [ProjectController::class, 'getSteps']);
 
     Route::middleware('user-type:admin')->group(function () {
         Route::apiResource('/project-types', ProjectTypeController::class)->except('index');
@@ -73,7 +74,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::post('addOffer/{project}',  'addOffer');
             Route::post('addStep/{project}',  'addStep');
-            Route::post('end/{project}',  'end');
+            Route::post('end/{project}',  'endProject');
         });
     });
     Route::middleware('user-type:customer')->prefix('customer')->group(function () {
@@ -83,7 +84,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(CustomerController::class)->group(function () {
             Route::get('getOffers/{project}', 'getOffers');
             Route::post('acceptOffer/{project}/{offer}', 'acceptOffer');
-            Route::get('getSteps/{project}', 'getSteps');
             Route::post('rate/{project}', 'rate');
         });
     });

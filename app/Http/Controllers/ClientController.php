@@ -54,7 +54,6 @@ class ClientController extends Controller
             'documents.*.type' => 'required|exists:document_types,id',
             'documents.*.description' => 'required|max:255',
         ]);
-
         $validated['project_id'] = $project->id;
         $validated['offered_by'] = $user->profile->id;
 
@@ -85,15 +84,28 @@ class ClientController extends Controller
             'documents.*.file' => 'required|file|mimes:pdf,jpg,png,jpeg,png,webp|max:50000',
             'documents.*.type' => 'required|exists:document_types,id',
             'documents.*.description' => 'required|max:255',
-        ]);
+        ]);        
     $validated['project_id'] = $project->id;
         $step = $project->steps()->create($validated);
+        if ($request->has('documents')) {
+            foreach ($request->documents as $document) {
+
+                $docName = $document['file']->store('projects', 'public');
+
+                $step->documents()->create([
+                    'path' => $docName,
+                    'description' => $document['description'],
+                    'document_type_id' => $document['type'],
+                ]);
+            }
+        }
         return apiSuccess("تم إضافة الخطوة بنجاح", $step);
     }
 
-    function end(Project $project){
+    function endProject(Project $project){
         $project->status = 'completed';
         $project->save();
         return apiSuccess("تم إنهاء المشروع بنجاح");;   
     }
+    
 }

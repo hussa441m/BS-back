@@ -47,17 +47,7 @@ class CustomerController extends Controller
         return apiSuccess("تم قبول العرض");
     }
 
-    function getSteps(Project $project)
-    {
-        $steps = $project->steps()->with('documents')->get()->map(function ($step) {
-            $step->documents = $step->documents->map(function ($doc) {
-                $doc->path = asset('storage/' . $doc->path);
-                return $doc;
-            });
-            return $step;
-        });
-        return apiSuccess("خطوات المشروع", $steps);
-    }
+    
 
     function rate(Project $project, Request $request)
     {
