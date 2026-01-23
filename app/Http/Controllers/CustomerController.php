@@ -41,20 +41,35 @@ class CustomerController extends Controller
         // return $offer;
         $offer->update(['isSelected' => true]);
         $project->update(['performed_by' => $offer->offered_by, 'status' => 'active']);
-        $clientuser = Profile::find( $offer->offered_by)->user;
-        
+        $clientuser = Profile::find($offer->offered_by)->user;
+
         $clientuser->notify(new AcceptOffer());
         return apiSuccess("تم قبول العرض");
     }
-    
-    function getSteps(Project $project) {
-        $steps = $project->steps()->with('documents')->get()->map(function($step){
+
+    function getSteps(Project $project)
+    {
+        $steps = $project->steps()->with('documents')->get()->map(function ($step) {
             $step->documents = $step->documents->map(function ($doc) {
                 $doc->path = asset('storage/' . $doc->path);
                 return $doc;
             });
             return $step;
         });
-        return apiSuccess("خطوات المشروع", $steps); 
+        return apiSuccess("خطوات المشروع", $steps);
+    }
+
+    function rate(Project $project, Request $request)
+    {
+        $this->authorize('update', $project);
+
+        $request->validate([
+            'rate' => 'required|in:1,2,3,4,5',
+            'comment' => 'nullable|string',
+        ]);
+
+        $project->update(['rate' => $request->rate  , 'comment' => $request->comment]);
+
+        return apiSuccess("تم إضافة التقييم بنجاح");
     }
 }

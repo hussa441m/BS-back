@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $fillable = ['start_date' , 'end_date' , 'duration' , 'area' , 'location_details' , 
-    'description' , 'building_no'  ,'budget' ,  'note' , 'status' , 'project_type_id', 'customer_id' , 'performed_by','province_id'];
+    protected $fillable = ['start_date' , 'end_date' , 'duration' , 'area' , 'location_detailsgit ' , 
+    'description' , 'building_no'  ,'budget' ,   'status' , 'rate' , 'comment' ,'project_type_id', 'customer_id' , 'performed_by','province_id'];
 
     function province(){
         return $this->belongsTo(province::class);

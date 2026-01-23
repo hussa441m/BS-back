@@ -27,10 +27,10 @@ return new class extends Migration
             $table->string('building_no',15);
             
             $table->integer('budget')->nullable();
-            $table->string('note' , 1000)->nullable();
             
             $table->enum('status' , ['new' , 'active' , 'completed'])->default('new');
             
+            $table->string('comment' , 1000)->nullable();
             $table->enum('rate' , ['1', '2' , '3' ,'4' ,'5'])->nullable();
             
             $table->foreignId('province_id')->constrained();                                    

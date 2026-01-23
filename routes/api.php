@@ -84,6 +84,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('getOffers/{project}', 'getOffers');
             Route::post('acceptOffer/{project}/{offer}', 'acceptOffer');
             Route::get('getSteps/{project}', 'getSteps');
+            Route::post('rate/{project}', 'rate');
         });
     });
 });
