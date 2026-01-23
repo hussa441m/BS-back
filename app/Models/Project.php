@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $fillable = ['start_date' , 'end_date' , 'duration' , 'area' , 'location_detailsgit ' , 
+    protected $fillable = ['start_date' , 'end_date' , 'duration' , 'area' , 'location_details' , 
     'description' , 'building_no'  ,'budget' ,   'status' , 'rate' , 'comment' ,'project_type_id', 'customer_id' , 'performed_by','province_id'];
 
     function province(){
@@ -22,6 +22,9 @@ class Project extends Model
     }
     function customer(){
         return $this->belongsTo(User::class,'customer_id');
+    }
+    function client(){
+        return $this->belongsTo(Profile::class,'performed_by');
     }
     
     function documents(){

@@ -3,28 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProviderResource;
-use App\Models\Booking;
-use App\Models\Comment;
 use App\Models\Complaint;
 use App\Models\Profile;
-use App\Models\Provider;
 use App\Models\User;
-use App\Notifications\ProviderAccountAccepted;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-
-
-    
-
-    public function getComplaint()
+    public function getComplaints()
     {
-        $complaints = Complaint::with( 'project:id,name',
-                'tourist:id,name',
-                'service.provider:id,name',
-            )->get();
+        $complaints = Complaint::with( 'user:id,name','project:id,description,performed_by', 'project.client:id,user_id' , 'project.client.user:id,name' )->get();
         return apiSuccess('الشكاوى ',  $complaints);
     }
 

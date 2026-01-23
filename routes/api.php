@@ -62,6 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/clients/{user}', [ProfileController::class, 'accept']);
 
         Route::get('/totals', [AdminController::class, 'totals']);
+        Route::get('/getComplaints', [AdminController::class, 'getComplaints']);
     });
 
     Route::middleware('user-type:client')->prefix('client')->group(function () {
