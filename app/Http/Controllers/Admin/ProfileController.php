@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Notifications\AcceptClient;
+use App\Notifications\ChangeState;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -32,7 +33,7 @@ class ProfileController extends Controller
         ]);
         $user->update(['status' => $request->status]);
         
-        // $user->notify(new AcceptClient());
+        $user->notify(new ChangeState($request->status));
         return apiSuccess("تم  تغيير حالة الحساب");
     }
 }

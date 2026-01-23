@@ -46,7 +46,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(NotificationController::class)->group(function () {
         Route::get('/notifications',  'index');
         Route::get('/notifications/unread-count',  'unreadCount');
-        Route::patch('/notifications/mark-as-read',  'markAsRead');
+        Route::patch('/notifications/markAsRead',  'markAsRead');
     });
 
     Route::get('getClients/{role}', [CustomerController::class, 'getClients']);

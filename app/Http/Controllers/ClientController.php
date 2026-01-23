@@ -43,7 +43,7 @@ class ClientController extends Controller
     {
         $user = $request->user();
         if ($user->status != 'active')
-            return apiError("لا يمكنك إضافة عرض في الوقت الحالي");
+            return apiError("لا يمكنك إضافة عرض في الوقت الحالي، يجب أن يكون حسابك مفعلا");
 
         $validated =  $request->validate([
             'cost' => 'required|integer|min:0',
