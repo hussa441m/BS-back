@@ -59,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/roles', ٌRoleController::class)->except('index');
 
         Route::get('/clients', [ProfileController::class, 'index']);
-        Route::patch('/clients/{user}', [ProfileController::class, 'accept']);
+        Route::patch('/ChangeClientState/{user}', [ProfileController::class, 'ChangeClientState']);
 
         Route::get('/totals', [AdminController::class, 'totals']);
         Route::get('/getComplaints', [AdminController::class, 'getComplaints']);

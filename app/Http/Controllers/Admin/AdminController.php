@@ -16,7 +16,7 @@ class AdminController extends Controller
         return apiSuccess('الشكاوى ',  $complaints);
     }
 
-    
+        
 
     public function totals()
     {
@@ -27,4 +27,7 @@ class AdminController extends Controller
             'customer' => User::count() - $profileCount -1,
         ]);
     }
+
+
+    
 }

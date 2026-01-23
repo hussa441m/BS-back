@@ -20,6 +20,7 @@ class UserResource extends JsonResource
              'email' => $this->email,
              'name' => $this->name,
              'experience' => round(Carbon::parse($this->profile->experience_start)->diffInDays(now()) / 365.25,1),
+             'status' => $this->status,
              'role' => $this->profile->role->name,
              'documents' => $this->profile->documents->map(function($doc){
                 return [                    
